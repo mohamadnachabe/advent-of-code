@@ -101,7 +101,7 @@ def countMatches(
     countMatches(input, searchWord, matcher, strategies, i + 1, j + 1,  visited)
 }
 
-val testCase =
+val testCasePart1 =
   """MMMSXXMASM
     |MSAMXMSMSA
     |AMXSXMAAMM
@@ -114,11 +114,9 @@ val testCase =
     |MXMXAXMASX
     |""".stripMargin
 
-val testCaseGraph = testCase.linesIterator.toArray.filter(_.nonEmpty).map(_.toArray)
-
 timed {
-  val result = countMatches(
-    input = testCaseGraph,
+  val part1 = countMatches(
+    input = testCasePart1.linesIterator.toArray.filter(_.nonEmpty).map(_.toArray),
     searchWord = "XMAS",
     matcher = equalsStringOrReverse,
     strategies = Seq(
@@ -128,5 +126,30 @@ timed {
       matchReverseDiagonal,
     )
   )
-  println(result)
+  println(part1)
 }
+
+val testCasePart2 =
+  """.M.S......
+    |..A..MSMS.
+    |.M.S.MAA..
+    |..A.ASMSM.
+    |.M.S.M....
+    |..........
+    |S.S.S.S.S.
+    |.A.A.A.A..
+    |M.M.M.M.M.
+    |..........""".stripMargin
+
+timed {
+  val part2 = countMatches(
+    input = testCasePart2.linesIterator.toArray.filter(_.nonEmpty).map(_.toArray),
+    searchWord = "MAS",
+    matcher = equalsStringOrReverse,
+    strategies = Seq(
+      matchCrossingDiagonal
+    )
+  )
+  println(part2)
+}
+
