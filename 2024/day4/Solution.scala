@@ -11,10 +11,10 @@ def timed(fn: => Unit): Unit = {
 def equalsStringOrReverse(left: String, right: String) = left == right || left == right.reverse
 
 def matchHorizontal(
-   input: Array[Array[Char]],
-   searchWord: String,
-   i: Int = 0,
-   j: Int = 0
+ input: Array[Array[Char]],
+ searchWord: String,
+ i: Int = 0,
+ j: Int = 0
 )(matcher: (String, String) => Boolean) = {
   if((j + searchWord.size - 1) < input.head.size) {
     val horizontal = (0 until searchWord.size).map { offset => input(i)(j + offset) }.mkString
@@ -25,10 +25,10 @@ def matchHorizontal(
 }
 
 def matchVertical(
-  input: Array[Array[Char]],
-  searchWord: String,
-  i: Int = 0,
-  j: Int = 0
+ input: Array[Array[Char]],
+ searchWord: String,
+ i: Int = 0,
+ j: Int = 0
 )(matcher: (String, String) => Boolean) = {
   if(i + searchWord.size - 1 < input.size) {
     val vertical = (0 until searchWord.size).map { offset => input(i + offset)(j) }.mkString
@@ -38,11 +38,11 @@ def matchVertical(
   }
 }
 
-def matchDiagonal(
-  input: Array[Array[Char]],
-  searchWord: String,
-  i: Int = 0,
-  j: Int = 0
+def matchLeftDiagonal(
+ input: Array[Array[Char]],
+ searchWord: String,
+ i: Int = 0,
+ j: Int = 0
 )(matcher: (String, String) => Boolean) = {
   if(i + searchWord.size - 1 < input.size && j + searchWord.size - 1 < input.head.size) {
     val diagonal = (0 until searchWord.size).map { offset => input(i + offset)(j + offset) }.mkString
@@ -52,7 +52,7 @@ def matchDiagonal(
   }
 }
 
-def matchReverseDiagonal(
+def matchRightDiagonal(
   input: Array[Array[Char]],
   searchWord: String,
   i: Int = 0,
@@ -67,10 +67,10 @@ def matchReverseDiagonal(
 }
 
 def matchCrossingDiagonal(
-  input: Array[Array[Char]],
-  searchWord: String,
-  i: Int = 0,
-  j: Int = 0
+ input: Array[Array[Char]],
+ searchWord: String,
+ i: Int = 0,
+ j: Int = 0
 )(matcher: (String, String) => Boolean) = {
   if(i + searchWord.size - 1 < input.size && j + searchWord.size - 1 < input.head.size) {
     val diagonal = (0 until searchWord.size).map { offset => input(i + offset)(j + offset) }.mkString
@@ -97,8 +97,7 @@ def countMatches(
 
   strategies.map(_(input, searchWord, i, j)(matcher)).sum +
     countMatches(input, searchWord, matcher, strategies, i + 1, j, visited) +
-    countMatches(input, searchWord, matcher, strategies, i, j + 1,  visited) +
-    countMatches(input, searchWord, matcher, strategies, i + 1, j + 1,  visited)
+    countMatches(input, searchWord, matcher, strategies, i, j + 1,  visited)
 }
 
 val testCasePart1 =
@@ -122,8 +121,8 @@ timed {
     strategies = Seq(
       matchHorizontal,
       matchVertical,
-      matchDiagonal,
-      matchReverseDiagonal,
+      matchLeftDiagonal,
+      matchRightDiagonal,
     )
   )
   println(part1)
